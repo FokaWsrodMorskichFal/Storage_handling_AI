@@ -3,3 +3,7 @@ This repository was created in order to develop an AI-based algorithm, which wil
 AI methods:
 + evolutionary algorithms
 + single layer perceptron   
+
+Programming languages:
++ C++
++ Java
