@@ -1,0 +1,3 @@
+backend/bin/*.exe
+.vscode
+backend/lib/Eigen
