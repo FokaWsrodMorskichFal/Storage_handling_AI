@@ -11,5 +11,6 @@ class Specimen {
 public:
     Specimen();
     void setFitness(double fitness);
+    std::array<Worker, Parameters::N_WORKERS>& getWorkers() { return workers; };
     inline bool operator<(const Specimen& rhs) const { return fitness > rhs.fitness; };
 };

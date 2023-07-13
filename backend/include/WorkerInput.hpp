@@ -8,6 +8,7 @@
 constexpr int INPUT_SIZE = 22;
 
 class WorkerInput {
+public:
     double xPos;
     double yPos;
     double xNN;
@@ -18,6 +19,7 @@ class WorkerInput {
     std::array<bool, Parameters::N_COLORS> colorsNN;
     std::array<bool, Parameters::N_COLORS> neededBox;
     std::array<std::array<double, 2>, Parameters::N_COLORS> boxPositions;
+private:
     Eigen::VectorXd boolArrayToVec(std::array<bool, Parameters::N_COLORS>) const;
     Eigen::VectorXd flatten(std::array<std::array<double, 2>, Parameters::N_COLORS>) const;
 public:

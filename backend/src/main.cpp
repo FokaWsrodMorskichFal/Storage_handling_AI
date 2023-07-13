@@ -1,5 +1,4 @@
-#include "WorkerInput.hpp"
-#include "NeuralNetwork.hpp"
+#include "Population.hpp"
 
 #include <Eigen/Core>
 #include <iostream>
@@ -8,7 +7,6 @@ using namespace Eigen;
 using namespace std;
 
 int main() {
-    NeuralNetwork nn;
-    WorkerOutput output = nn.evaluate(WorkerInput());
+    Population pop(5);
     return 0;
 }

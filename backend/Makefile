@@ -7,6 +7,7 @@ INCLUDE := -I include \
 		-I include/crossers \
 		-I include/crossSelectors \
 		-I include/mutators \
+		-I include/warehouse \
 		-I lib
 
 LIBRARIES   :=

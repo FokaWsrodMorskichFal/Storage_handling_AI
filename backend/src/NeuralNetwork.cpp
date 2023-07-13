@@ -24,7 +24,7 @@ WorkerOutput NeuralNetwork::evaluate(const WorkerInput& workerInput) const {
     VectorXd res;
     res = workerInput.toVector();
     for (const auto& layer : layers) {
-        res = (layer * res).unaryExpr(&sigmoid);;
+        res = (layer * res).unaryExpr(&sigmoid);
     }
     return WorkerOutput::fromVector(res);
 }
