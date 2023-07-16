@@ -4,13 +4,22 @@
 
 constexpr int OUTPUT_SIZE = 4;
 
+namespace WorkerGrabAction {
+    constexpr int GRAB_ACTION = 1;
+    constexpr int IDLE = 0;
+    constexpr int DROP_ACTION = -1;
+}
+
 class WorkerOutput {
+public:
     double xVel;
     double yVel;
-    double grabAction; // -TRESHOLD = drop, +TRESHOLD = grab
+    int grabAction; // -TRESHOLD = drop, +TRESHOLD = grab
     double smell;
+private:
+    static int determineGrabAction(double);
 public:
-    WorkerOutput(double, double, double, double);
+    WorkerOutput(double=.0, double=.0, int=0, double=.0);
 
     /**
      * @brief Returns the number of output params.

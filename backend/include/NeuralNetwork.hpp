@@ -10,7 +10,7 @@ class NeuralNetwork {
     std::vector<Eigen::MatrixXd> layers;
 public:
     NeuralNetwork();
-    NeuralNetwork(std::vector<Eigen::MatrixXd>);
+    NeuralNetwork(std::vector<int>);
 
     /**
      * @brief Evaluates one pass of input vector through all layers.

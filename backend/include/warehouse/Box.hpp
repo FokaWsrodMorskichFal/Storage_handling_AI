@@ -16,6 +16,8 @@ public:
     void setColor(int);
     void setHeld() { isHeld = true; };
     void setDropped() { isHeld = false; };
+    bool isInDeliveryZone();
+    bool isInShipmentZone();
     inline bool operator==(const Box& rhs) const { return id == rhs.id; };
     ~Box();
 };

@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Worker.hpp"
+#include "NeuralNetwork.hpp"
 #include "Parameters.hpp"
 
 #include <array>
 
 class Specimen {
     double fitness;
-    std::array<Worker, Parameters::N_WORKERS> workers;
+    std::array<NeuralNetwork, Parameters::N_WORKERS> neuralNetworks;
 public:
     Specimen();
     void setFitness(double fitness);
-    std::array<Worker, Parameters::N_WORKERS>& getWorkers() { return workers; };
+    const std::array<NeuralNetwork, Parameters::N_WORKERS>& getNNs() const { return neuralNetworks; };
     inline bool operator<(const Specimen& rhs) const { return fitness > rhs.fitness; };
 };

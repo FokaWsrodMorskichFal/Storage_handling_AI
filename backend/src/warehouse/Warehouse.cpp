@@ -1,5 +1,6 @@
 #include "Warehouse.hpp"
 #include "SimulatorParameters.hpp"
+#include "Parameters.hpp"
 
 #include <algorithm>
 
@@ -21,6 +22,27 @@ void Warehouse::deleteBox(const Box& box) {
     }
 }
 
+std::vector<Box> Warehouse::getBoxesInDeliveryZone(){
+    vector<Box> boxesDelivery;
+    for(auto box : boxes){
+        if(box.isInDeliveryZone()){
+            boxesDelivery.push_back(box);
+        }
+    }
+    return boxesDelivery;
+}
+
+std::vector<Box> Warehouse::getBoxesInShipmentZone(){
+    vector<Box> boxesShipment;
+    for(auto box : boxes){
+        if(box.isInShipmentZone()){
+            boxesShipment.push_back(box);
+        }
+    }
+    return boxesShipment;
+}
+
+//przepisać z użyciem nowych metod wyżej ^^^
 bool Warehouse::isDeliveryZoneEmpty(){
     bool flag=true;
     int i=0;

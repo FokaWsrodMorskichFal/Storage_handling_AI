@@ -14,8 +14,9 @@ class Worker {
     std::shared_ptr<Box> heldBox;
     NeuralNetwork neuralNetwork;
 public:
-    Worker(double=.0, double=.0);
-    WorkerOutput decideAction(const WorkerInput&) const;
+    Worker();
+    Worker(NeuralNetwork, double=.0, double=.0);
+    WorkerOutput decideAction(WorkerInput&) const;
     bool doesHoldBox() const { return heldBox != nullptr; };
     Box& getHeldBox() const { return *heldBox.get(); };
     void holdBox(Box&);
@@ -23,7 +24,7 @@ public:
     double getX() const { return x; };
     double getY() const { return y; };
     double getSmell() const { return smell; };
-    void setSmell(double smell) { this->smell = smell; }; 
-    void reset(double=.0, double=.0);
+    void setSmell(double) { this->smell = smell; };
+    void moveBy(double, double);
     double distance(const Worker&) const;
 };

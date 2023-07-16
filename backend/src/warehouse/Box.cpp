@@ -1,4 +1,5 @@
 #include "Box.hpp"
+#include "SimulatorParameters.hpp"
 
 Box::Box(double x, double y, int color) : x(x), y(y), color(color), isHeld(false) {
     static int lastId = 0;
@@ -13,6 +14,22 @@ void Box::setPos(double x, double y) {
 
 void Box::setColor(int color) {
     this->color = color;
+}
+
+bool Box::isInShipmentZone(){
+    if((this->y < (SimulatorParameters::minY + SimulatorParameters::shipmentZoneHeight)) and !(isHeld)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool Box::isInDeliveryZone(){
+    if((this->y > (SimulatorParameters::maxY - SimulatorParameters::deliveryZoneHeight)) and !(isHeld)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 #include <iostream>

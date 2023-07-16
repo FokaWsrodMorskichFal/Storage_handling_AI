@@ -20,8 +20,10 @@ public:
     double getMaxY() const { return maxY; };
     double getdeliveryZoneHeight() const { return deliveryZoneHeight; };
     double getshipmentZoneHeight() const { return shipmentZoneHeight; };
-    void addBox(const Box& box) { boxes.push_back(box); };
+    void addBox(const Box& box) { boxes.emplace_back(box); };
     void deleteBox(const Box&);
     bool isDeliveryZoneEmpty();
     std::vector<Box>& getBoxes() { return boxes; };
+    std::vector<Box> getBoxesInDeliveryZone();
+    std::vector<Box> getBoxesInShipmentZone();
 };

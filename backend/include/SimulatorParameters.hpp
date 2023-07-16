@@ -9,4 +9,7 @@ namespace SimulatorParameters {
     const double maxY = 1;
     const double deliveryZoneHeight = 0.3;
     const double shipmentZoneHeight = 0.3;
+    const double grabTreshold = 0.5;
+    const double grabRange = 0.05;
+    const double velocityDump = 0.1;
 };

@@ -4,17 +4,16 @@
 
 using namespace Eigen;
 
-NeuralNetwork::NeuralNetwork() {
-    int l1NodeCount = 10;
-    int l2NodeCount = 10;
-    MatrixXd l1 = MatrixXd::Random(l1NodeCount, WorkerInput::inputSize());
-    MatrixXd l2 = MatrixXd::Random(l2NodeCount, l1NodeCount);
-    MatrixXd l3 = MatrixXd::Random(WorkerOutput::outputCount(), l2NodeCount);
-    layers = {l1, l2, l3};
-}
+NeuralNetwork::NeuralNetwork() {}
 
-NeuralNetwork::NeuralNetwork(std::vector<Eigen::MatrixXd> layers)
-: layers(layers) {}
+NeuralNetwork::NeuralNetwork(std::vector<int> hiddenLayerSizes) {
+    int layerCols = WorkerInput::inputSize();
+    for (auto& layerSize : hiddenLayerSizes) {
+        layers.push_back(MatrixXd::Random(layerSize, layerCols));
+        layerCols = layerSize;
+    }
+    layers.push_back(MatrixXd::Random(WorkerOutput::outputCount(), layerCols));
+}
 
 double sigmoid(double x) {
     return 1 / (1 + exp(-x));

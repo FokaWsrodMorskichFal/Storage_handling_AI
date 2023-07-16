@@ -3,16 +3,15 @@ CXX_FLAGS := -std=c++17 -ggdb
 
 BIN     := bin
 SRC     := src
-INCLUDE := -I include \
-		-I include/crossers \
-		-I include/crossSelectors \
-		-I include/mutators \
-		-I include/warehouse \
-		-I lib
-
+INCLUDE_DIRS := $(shell find include -type d) lib
 LIBRARIES   :=
 EXECUTABLE  := storage-handling-ai.exe
 
+SRC_FILES := $(shell find $(SRC) -name '*.cpp')
+
+INCLUDE := $(addprefix -I ,$(INCLUDE_DIRS))
+
+$(shell mkdir -p $(BIN))
 
 all: clean $(BIN)/$(EXECUTABLE)
 
@@ -20,8 +19,8 @@ run: clean all
 	clear
 	./$(BIN)/$(EXECUTABLE)
 
-$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp
-	$(CXX) $(CXX_FLAGS) $(INCLUDE) $^ -o $@  $(LIBRARIES)
+$(BIN)/$(EXECUTABLE): $(SRC_FILES)
+	$(CXX) $(CXX_FLAGS) $(INCLUDE) $(LIB) $^ -o $@  $(LIBRARIES)
 
 clean:
-	-rm $(BIN)/*
+	-rm -f $(BIN)/*
