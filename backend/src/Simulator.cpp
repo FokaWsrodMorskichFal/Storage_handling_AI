@@ -37,9 +37,9 @@ void Simulator::receiveDelivery(){
 array<bool, Parameters::N_COLORS> Simulator::checkShipmentStatus() const{
     array<bool, Parameters::N_COLORS> colorsNeeded = {false};
     array<int, Parameters::N_COLORS> numOfBoxesOfGivenColorInShipmentZone = numberOfBoxesOfGivenColor(warehouse.getBoxesInShipmentZone());
-    array<int, Parameters::N_COLORS> shipment = currShipment.getShipment();
+    array<int, Parameters::N_COLORS> order = currShipment.getOrder();
     for(int i=0;i<Parameters::N_COLORS;i++){
-        if(numOfBoxesOfGivenColorInShipmentZone[i]==shipment[i]){
+        if(numOfBoxesOfGivenColorInShipmentZone[i]==order[i]){
             colorsNeeded[i] = true;
         }
     }
@@ -71,8 +71,11 @@ const Worker& Simulator::findNearestWorker(const Worker& thisWorker) const {
     double minDistance = numeric_limits<double>::max();
     const Worker* nearestWorker = nullptr;
     for (auto& otherWorker : workers) {
+        if (&otherWorker == &thisWorker) {
+            continue;
+        }
         double distance = thisWorker.distance(otherWorker);
-        if (distance < minDistance && distance > EPSILON) {
+        if (distance < minDistance) {
             nearestWorker = &otherWorker;
         }
     }
@@ -97,16 +100,22 @@ void Simulator::updateNearestBoxesData(const Worker& worker, WorkerInput& input)
         }
     }
     for (int color = 0; color < N_COLORS; ++color) {
-        auto minIter = min(sortedBoxesByColor[color].begin(), sortedBoxesByColor[color].end(),[thisWorkerPos](const vector<Box>::iterator& v1Iter, const vector<Box>::iterator& v2Iter) {
-            const Box& v1 = *v1Iter;
-            const Box& v2 = *v2Iter;
-            return Position(v1.getX(), v1.getY()).distance(thisWorkerPos) < 
-                Position(v2.getX(), v2.getY()).distance(thisWorkerPos);
-        });
-        if (minIter == sortedBoxesByColor[color].end()) {
+        double minDistance = numeric_limits<double>::max();
+        Position workerPos = Position(worker.getX(), worker.getY());
+        Box* nearestBox = nullptr;
+        for (auto& box : sortedBoxesByColor[color]) {
+            double distance = workerPos.distance(Position(box.getX(), box.getY()));
+            if (distance < minDistance) {
+                nearestBox = &box;
+            }
+        }
+        if (nearestBox == nullptr) {
             input.boxPositions[color] = { .0, .0 };
         } else {
-            input.boxPositions[color] = { minIter.base()->getX(), minIter.base()->getY() };
+            if (Position(nearestBox->getX(), nearestBox->getY()).distance(thisWorkerPos) <= grabRange) {
+                input.boxInRange = true;
+            }
+            input.boxPositions[color] = { nearestBox->getX(), nearestBox->getY() };
         }
     }
 }
@@ -124,10 +133,11 @@ WorkerInput Simulator::generateWorkerInputData(const Worker& worker) const {
     return input;
 }
 
-void Simulator::simulate(Specimen& specimen) {
+#include <iostream>
+void Simulator::simulate() {
     const double dt = DELTA_T;
     const double maxSimulationTime = MAX_SIM_T;
-    for (double currentFrameTime = .0; currentFrameTime > maxSimulationTime; currentFrameTime += dt) {
+    for (double currentFrameTime = .0; currentFrameTime < maxSimulationTime; currentFrameTime += dt) {
         for (Worker& worker : workers) {
             WorkerInput input = generateWorkerInputData(worker);
             WorkerOutput output = worker.decideAction(input);
@@ -147,7 +157,9 @@ void Simulator::makeAction(Worker& worker, const WorkerOutput& output) {
                 nearestBox = &box;
             }
         }
-        worker.holdBox(*nearestBox);
+        if (minDistance <= grabRange) {
+            worker.holdBox(*nearestBox);
+        }
     } else if (output.grabAction == DROP_ACTION) {
         worker.dropBox();
     } else {

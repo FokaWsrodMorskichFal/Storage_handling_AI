@@ -1,32 +1,26 @@
 #include "RandMutator.hpp"
 #include "RNG.hpp"
 
-#include <iostream>     //XD kryzysik
+#include <algorithm>
 
 using namespace std;
 
+double tryMutate(double x) {
+    if (RNG::testEvent(MUT_PROB)) {
+        return clamp(x + (RNG::testEvent(0.5) ? -1 : 1) * MUT_INFLU, -1., 1.);
+    }
+    return x;
+}
+
 Population RandMutator::mutate(const Population& population) const {
     Population mutatedPops;
-    for(auto pop : population){
+    for(auto& pop : population){
         array<NeuralNetwork, Parameters::N_WORKERS> NNs = pop.getNNs();
         for(auto& NN : NNs){
-            std::vector<Eigen::MatrixXd> layers = NN.getLayers();
+            std::vector<Eigen::MatrixXd>& layers = NN.getLayers();
             for(auto& layer : layers){
-                int r = layer.rows();
-                int c = layer.cols();
-                for(int i=0;i<r;i++){
-                    for(int j=0;j<c;j++){
-                        if((RNG::uniformRandom(.0, 1.0))<MUT_PROB){
-                            if((RNG::uniformRandom(-1.0, 1.0))<0){
-                                layer(i, j) = layer(i, j) - MUT_INFLU;
-                            }else{
-                                layer(i, j) = layer(i, j) + MUT_INFLU;
-                            } 
-                        }
-                    }
-                }
+                layer = layer.unaryExpr(&tryMutate);
             }
-            NN = NeuralNetwork(layers);
         }
         mutatedPops.push_back(Specimen(NNs));
     }

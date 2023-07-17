@@ -24,7 +24,7 @@ public:
     double getX() const { return x; };
     double getY() const { return y; };
     double getSmell() const { return smell; };
-    void setSmell(double) { this->smell = smell; };
+    void setSmell(double smell) { this->smell = smell; };
     void moveBy(double, double);
     double distance(const Worker&) const;
 };

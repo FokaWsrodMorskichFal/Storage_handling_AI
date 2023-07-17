@@ -3,10 +3,11 @@
 #include "Box.hpp"
 #include "Parameters.hpp"
 
-#include <vector>
+#include <array>
 
 class Shipment {
-    std::array<int, Parameters::N_COLORS> shipment;
+    std::array<int, Parameters::N_COLORS> order;
 public:
-    std::array<int, Parameters::N_COLORS> getShipment() const { return shipment; };
+    Shipment();
+    std::array<int, Parameters::N_COLORS> getOrder() const { return order; };
 };

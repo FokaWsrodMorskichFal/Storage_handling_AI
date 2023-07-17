@@ -13,7 +13,7 @@
 class Simulator {
     Warehouse& warehouse;
     std::array<Worker, Parameters::N_WORKERS> workers;
-    Shipment currShipment; // current shipment
+    Shipment currShipment; // current order
 
     double calculateFitness(const RuntimeStatistics&) const;
     double boxWorkerDist(Worker&, Box&) const;
@@ -28,5 +28,5 @@ class Simulator {
     void makeAction(Worker&, const WorkerOutput&);
 public:
     Simulator(Warehouse& warehouse, Specimen& specimen);
-    void simulate(Specimen&);
+    void simulate();
 };

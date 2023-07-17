@@ -11,6 +11,7 @@ WorkerInput::WorkerInput() {
     yNN = -0.75;
     smellNN = 0.3;
     areaLoad = -1;
+    boxInRange = false;
     heldBox = {false, false, false};
     colorsNN = {false, false, false};
     neededBox = {false, false, false};
@@ -18,8 +19,8 @@ WorkerInput::WorkerInput() {
 }
 
 VectorXd WorkerInput::toVector() const {
-    VectorXd doubles(7);
-    doubles << 1., xPos, yPos, xNN, yNN, smellNN, static_cast<double>(areaLoad);
+    VectorXd doubles(8);
+    doubles << 1., xPos, yPos, xNN, yNN, smellNN, static_cast<double>(areaLoad), (boxInRange ? 1. : -1.);
     VectorXd heldBoxVec = boolArrayToVec(heldBox);
     VectorXd colorsNNVec = boolArrayToVec(colorsNN);
     VectorXd neededBoxVec = boolArrayToVec(neededBox);

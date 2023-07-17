@@ -20,5 +20,5 @@ public:
      * @return WorkerOutput - NN output vector represented as WorkerOutput instance
      */
     WorkerOutput evaluate(const WorkerInput&) const;
-    const std::vector<Eigen::MatrixXd> getLayers() const { return layers; };
+    std::vector<Eigen::MatrixXd>& getLayers() { return layers; };
 };

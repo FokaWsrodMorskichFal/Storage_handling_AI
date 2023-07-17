@@ -5,7 +5,7 @@
 #include <array>
 #include <Eigen/Core>
 
-constexpr int INPUT_SIZE = 22;
+constexpr int INPUT_SIZE = 8 + 5 * Parameters::N_COLORS;
 
 class WorkerInput {
 public:
@@ -15,6 +15,7 @@ public:
     double yNN;
     double smellNN;
     int areaLoad; // <-1, 1> 
+    bool boxInRange;
     std::array<bool, Parameters::N_COLORS> heldBox;
     std::array<bool, Parameters::N_COLORS> colorsNN;
     std::array<bool, Parameters::N_COLORS> neededBox;

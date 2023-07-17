@@ -42,15 +42,6 @@ std::vector<Box> Warehouse::getBoxesInShipmentZone(){
     return boxesShipment;
 }
 
-//przepisać z użyciem nowych metod wyżej ^^^
 bool Warehouse::isDeliveryZoneEmpty(){
-    bool flag=true;
-    int i=0;
-    while(flag){
-        if(boxes[i].getY() >= (1-SimulatorParameters::deliveryZoneHeight)){
-            flag=false;
-        }
-        i++;
-    }
-    return flag;
+    return (getBoxesInDeliveryZone().size() == 0);
 }
