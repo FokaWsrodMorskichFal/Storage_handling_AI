@@ -29,14 +29,14 @@ VectorXd WorkerInput::toVector() const {
     return ret;
 }
 
-VectorXd WorkerInput::boolArrayToVec(array<bool, N_COLORS> boolArray) const {
-    array<double, N_COLORS> doubleArray;
+Eigen::VectorXd WorkerInput::boolArrayToVec(std::array<bool, N_COLORS> boolArray) const {
+    std::array<double, N_COLORS> doubleArray;
     transform(boolArray.begin(), boolArray.end(), doubleArray.begin(), [](bool b) { return static_cast<double>(b); });
     return Map<VectorXd>(doubleArray.data(), doubleArray.size());
 }
 
-VectorXd WorkerInput::flatten(array<array<double, 2>, N_COLORS> dataArray) const {
-    array<double, 2 * N_COLORS> flatArray;
+VectorXd WorkerInput::flatten(std::array<std::array<double, 2>, N_COLORS> dataArray) const {
+    std::array<double, 2 * N_COLORS> flatArray;
     auto flatIter = flatArray.begin();
     for(const auto& innerArray : dataArray) {
         flatIter = copy(innerArray.begin(), innerArray.end(), flatIter);

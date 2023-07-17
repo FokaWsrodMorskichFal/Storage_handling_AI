@@ -7,10 +7,12 @@
 #include <vector>
 
 class NeuralNetwork {
+public: // delete this line
     std::vector<Eigen::MatrixXd> layers;
 public:
     NeuralNetwork();
     NeuralNetwork(std::vector<int>);
+    NeuralNetwork(const std::vector<Eigen::MatrixXd>&);
 
     /**
      * @brief Evaluates one pass of input vector through all layers.
@@ -18,4 +20,5 @@ public:
      * @return WorkerOutput - NN output vector represented as WorkerOutput instance
      */
     WorkerOutput evaluate(const WorkerInput&) const;
+    const std::vector<Eigen::MatrixXd> getLayers() const { return layers; };
 };
