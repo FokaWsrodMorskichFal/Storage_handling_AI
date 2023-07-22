@@ -1,3 +1,10 @@
-backend/bin/*.exe
 .vscode
+
+# Backend
 backend/lib/Eigen
+backend/bin
+
+# Frontend
+frontend/.gradle
+frontend/build
+frontend/app/bin
