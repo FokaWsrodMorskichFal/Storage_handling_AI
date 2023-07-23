@@ -28,5 +28,5 @@ class Simulator {
     void makeAction(Worker&, const WorkerOutput&);
 public:
     Simulator(Warehouse& warehouse, Specimen& specimen);
-    void simulate();
+    double simulate();
 };

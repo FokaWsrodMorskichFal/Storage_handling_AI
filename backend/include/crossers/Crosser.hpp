@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Specimen.hpp"
+#include "Population.hpp"
 
 #include <vector>
 
 class Crosser {
 public:
-    virtual std::vector<Specimen> cross(const std::vector<Specimen>&) const = 0;
+    virtual Population cross(const Population&) const = 0;
 };

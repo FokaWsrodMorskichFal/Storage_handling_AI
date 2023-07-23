@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Specimen.hpp"
-#include "Simulator.hpp"
 #include "Population.hpp"
 #include "CrossSelector.hpp"
 #include "Crosser.hpp"
@@ -11,10 +9,10 @@
 
 class AlGen {
     Population population;
-    Simulator simulator;
     std::shared_ptr<CrossSelector> crossSelector;
     std::shared_ptr<Crosser> crosser;
     std::shared_ptr<Mutator> mutator;
 public:
-
+    AlGen(std::shared_ptr<CrossSelector>, std::shared_ptr<Crosser>, std::shared_ptr<Mutator>);
+    void nextEpoch();
 };

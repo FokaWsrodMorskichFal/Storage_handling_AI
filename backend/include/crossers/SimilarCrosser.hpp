@@ -8,5 +8,5 @@
  */
 class SimilarCrosser : public Crosser {
 public:
-    std::vector<Specimen> cross(const std::vector<Specimen>&) const override;
+    Population cross(const Population&) const override;
 };

@@ -30,7 +30,7 @@ void Simulator::receiveDelivery(){
     //na podstawie boxów w Warehouse wybierany skład dostawy
     //wersja tmp
     for(int i=0;i<N_COLORS;i++){
-        warehouse.addBox(Box(minX+(i+1)*(minX+maxX)/(N_COLORS + 1), maxY-(deliveryZoneHeight)/2, i));
+        warehouse.addBox(Box(minX+(i+1)*(maxX-minX)/(N_COLORS + 1), maxY-(deliveryZoneHeight)/2, i));
     }
 }
 
@@ -133,17 +133,27 @@ WorkerInput Simulator::generateWorkerInputData(const Worker& worker) const {
     return input;
 }
 
-#include <iostream>
-void Simulator::simulate() {
+double Simulator::simulate() {
     const double dt = DELTA_T;
     const double maxSimulationTime = MAX_SIM_T;
-    for (double currentFrameTime = .0; currentFrameTime < maxSimulationTime; currentFrameTime += dt) {
+    double simulationTime = .0;
+    // Init Delivery
+    receiveDelivery();
+    for (; simulationTime < maxSimulationTime; simulationTime += dt) {
         for (Worker& worker : workers) {
             WorkerInput input = generateWorkerInputData(worker);
             WorkerOutput output = worker.decideAction(input);
             makeAction(worker, output);
         }
     }
+    RuntimeStatistics runtimeStatistics;
+    // TODO change fitness calculations
+    double fitness = 0;
+    for (int i = 0; i < N_WORKERS; ++i) {
+        runtimeStatistics.meanSpeed[i] = workers[i].getTraveledDistance() / simulationTime;
+        fitness += runtimeStatistics.meanSpeed[i];
+    }
+    return fitness;
 }
 
 void Simulator::makeAction(Worker& worker, const WorkerOutput& output) {

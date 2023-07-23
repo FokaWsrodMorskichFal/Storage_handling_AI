@@ -1,13 +1,17 @@
 #include "Worker.hpp"
+#include "SimulatorParameters.hpp"
 
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 using namespace Parameters;
+using namespace SimulatorParameters;
 
 Worker::Worker() : Worker(NeuralNetwork()) {}
 
-Worker::Worker(NeuralNetwork nn, double x, double y) : neuralNetwork(nn), x(x), y(y), smell(0), heldBox(nullptr) {}
+Worker::Worker(NeuralNetwork nn, double x, double y)
+: neuralNetwork(nn), x(x), y(y), smell(0), heldBox(nullptr), traveledDistance(0) {}
 
 WorkerOutput Worker::decideAction(WorkerInput& input) const {
     input.xPos = x;
@@ -39,6 +43,9 @@ bool Worker::dropBox() {
 }
 
 void Worker::moveBy(double dx, double dy) {
+    dx = clamp(dx, minX-x, maxX-x);
+    dy = clamp(dy, minY-y, maxY-y);
+    traveledDistance += sqrt(pow(dx, 2) + pow(dy, 2));
     x += dx;
     y += dy;
 }

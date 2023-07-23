@@ -13,6 +13,7 @@ class Worker {
     double smell;
     std::shared_ptr<Box> heldBox;
     NeuralNetwork neuralNetwork;
+    double traveledDistance;
 public:
     Worker();
     Worker(NeuralNetwork, double=.0, double=.0);
@@ -26,5 +27,6 @@ public:
     double getSmell() const { return smell; };
     void setSmell(double smell) { this->smell = smell; };
     void moveBy(double, double);
+    double getTraveledDistance() const { return traveledDistance; };
     double distance(const Worker&) const;
 };
