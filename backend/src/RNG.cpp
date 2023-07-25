@@ -7,7 +7,7 @@ using namespace std;
 double RNG::uniformRandom(double lowerbound, double upperbound) {
     static random_device rd;
     static mt19937 gen(rd());
-    static uniform_real_distribution<> urd(lowerbound, upperbound);
+    uniform_real_distribution<> urd(lowerbound, upperbound);
     return urd(gen);
 }
 
@@ -15,7 +15,7 @@ double RNG::uniformRandom(double lowerbound, double upperbound) {
 int RNG::uniformRandom(int lowerbound, int upperbound) {
     static random_device rd;
     static mt19937 gen(rd());
-    static uniform_int_distribution<> uid(lowerbound, upperbound);
+    uniform_int_distribution<> uid(lowerbound, upperbound);
     return uid(gen);
 }
 
